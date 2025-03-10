@@ -1,0 +1,27 @@
+﻿@page "/permits"
+@inject NavigationManager NavigationManager
+@using System.Security.Claims
+
+<PageTitle>User Permits</PageTitle>
+
+<AuthorizeView >
+    <Authorized>
+        <p>Username: @context?.User?.FindFirst(ClaimTypes.Name)?.Value</p>
+        @foreach (var role in context?.User?.FindAll(ClaimTypes.Role))
+        {
+            <p> * role: @role.Value</p>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        Please sign-in!
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        //NavigationManager.NavigateTo("/sign-in");
+    }
+}

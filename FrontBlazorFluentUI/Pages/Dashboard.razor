@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject UserContext UserContext
+@inject NavigationManager NavigationManager
+
+<PageTitle>Front Blazor FluentUI</PageTitle>
+
+<FluentLabel Style="margin-bottom: 1rem;" Typo="Typography.H2"
+             Color="@Color.Custom" CustomColor="#00929D"
+             Alignment="HorizontalAlignment.Center">
+    Front Blazor FluentUI
+</FluentLabel>
+
+<AuthorizeView>
+    <Authorized>
+        The user: @UserContext.Title is authorized
+    </Authorized>
+    <NotAuthorized>
+        @if (UserContext.ServerAccessible)
+        {
+            <FluentLabel>The User is not authorized</FluentLabel>
+        }
+        else
+        {
+            <FluentLabel>Server is not accessible.</FluentLabel>
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        //NavigationManager.NavigateTo("/sign-in");
+    }
+}

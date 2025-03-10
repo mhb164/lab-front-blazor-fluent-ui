@@ -1,0 +1,97 @@
+﻿@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject UserContext UserContext
+@inject IDialogService DialogService
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="typeof(MainLayout)">
+                <Authorizing>
+                    <text>Please wait, we are authorizint the user.</text>
+                </Authorizing>
+                <NotAuthorized>
+                    @if (!UserContext.ServerAccessible)
+                    {
+                        <p>Server is not accessible.</p>
+                    }
+                    else if (UserContext.Authenticated)
+                    {
+                        <p>Access denied. You do not have permission.</p>
+                    }
+                    else
+                    {
+                        <p>You must sign in to view this page.</p>
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <h3>Page not found!</h3>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+<FluentDesignTheme StorageName="theme" />
+
+
+@code {
+    private bool _disposed = false;
+    private IDialogReference? _changePasswordDialog;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthStateProvider.AuthenticationStateChanged += AuthenticationStateChangedHandler;
+        AuthenticationStateChangedHandler(AuthStateProvider.GetAuthenticationStateAsync());
+        await Task.CompletedTask;
+    }
+
+    private async void AuthenticationStateChangedHandler(Task<AuthenticationState> task)
+    {
+        await task;
+        await HandleChangePasswordAsync();
+    }
+
+    private Task HandleChangePasswordAsync()
+    {
+        if (_changePasswordDialog != null && !UserContext.ForceChangeLocalPassword)
+            return HideChangePasswordAsync();
+
+        return ShowChangePasswordAsync();
+    }
+
+    private async Task ShowChangePasswordAsync()
+    {
+        if (_changePasswordDialog != null)
+            return;
+
+        if (!UserContext.ForceChangeLocalPassword)
+            return;
+
+        _changePasswordDialog = await DialogService.ShowDialogAsync<ChangeLocalPasswordPanel>(new DialogParameters()
+            {
+                Modal = false,
+                PreventDismissOnOverlayClick = true,
+            });
+
+        var result = await _changePasswordDialog.Result;
+        _changePasswordDialog = null;
+    }
+
+    private async Task HideChangePasswordAsync()
+    {
+        if (_changePasswordDialog == null)
+            return;
+
+        await _changePasswordDialog.CloseAsync();
+        _changePasswordDialog = null;
+    }
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _disposed = true;
+            AuthStateProvider.AuthenticationStateChanged -= AuthenticationStateChangedHandler;
+        }
+    }
+}

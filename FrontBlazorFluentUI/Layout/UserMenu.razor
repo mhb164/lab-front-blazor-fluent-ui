@@ -1,0 +1,45 @@
+﻿@using System.Security.Claims
+
+@if (_serverAccessible)
+{
+    <FluentButton id="UserMenu" BackgroundColor="var(--accent-fill-rest)" Appearance="Appearance.Stealth" OnClick="OnUserMenuClick" Title="@_userMenuTitle">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Color="Color.Neutral" Title="@_userMenuTitle" />
+    </FluentButton>
+
+    <FluentMenu Anchor="UserMenu" @bind-Open="_userMenuVisiable">
+        <FluentMenuItem OnClick="OnSwitchThemeClickAsync">
+            <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Accent" Slot="start" /></span>
+            Switch to
+            @if (Mode == DesignThemeModes.Dark)
+            {
+                <span>Light</span>
+            }
+            else
+            {
+                <span>Dark</span>
+            }
+        </FluentMenuItem>
+
+        <AuthorizeView>
+            <Authorized>
+                <FluentMenuItem OnClick="OnChangeLocalPasswordAsync">
+                    <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.PersonPasskey())" Color="Color.Accent" Slot="start" /></span>
+                    Change Local Password
+                </FluentMenuItem>
+                <FluentMenuItem OnClick="OnSignOutAsync">
+                    <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.SignOut())" Color="Color.Warning" Slot="start" /></span>
+                    Sign Out
+                </FluentMenuItem>
+            </Authorized>
+            <NotAuthorized>
+                <FluentMenuItem OnClick="OnSignInClickAsync">
+                    <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size24.ArrowForwardDownPerson())" Color="Color.Accent" Slot="start" /></span>
+                    Sign In
+                </FluentMenuItem>
+            </NotAuthorized>
+        </AuthorizeView>
+    </FluentMenu>
+}
+<FluentDesignTheme @bind-Mode="@Mode"
+                   @bind-OfficeColor="@OfficeColor"
+                   StorageName="theme" />

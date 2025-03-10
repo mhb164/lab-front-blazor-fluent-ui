@@ -1,0 +1,6 @@
+﻿@if (_serverAccessible)
+{
+    <FluentButton id="NavMenu" BackgroundColor="var(--accent-fill-rest)" Appearance="Appearance.Stealth" OnClick="OnNavMenuClick" Title="@_navMenuTitle">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Navigation())" Color="Color.Neutral" Title="@_navMenuTitle" />
+    </FluentButton>
+}
