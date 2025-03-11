@@ -24,6 +24,7 @@ builder.Services.AddSingleton(new JsonSerializerOptions
     WriteIndented = true,
 });
 builder.Services.AddSingleton<TimeService>();
+builder.Services.AddScoped<LayoutService>();
 builder.Services.AddScoped<IStorageProvider, StorageProvider>();
 builder.Services.AddScoped<UserContext>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();

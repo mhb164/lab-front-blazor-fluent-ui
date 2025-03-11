@@ -6,7 +6,7 @@
         <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Color="Color.Neutral" Title="@_userMenuTitle" />
     </FluentButton>
 
-    <FluentMenu Anchor="UserMenu" @bind-Open="_userMenuVisiable">
+    <FluentMenu Anchor="UserMenu" @bind-Open="_userMenuVisible">
         <FluentMenuItem OnClick="OnSwitchThemeClickAsync">
             <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Accent" Slot="start" /></span>
             Switch to

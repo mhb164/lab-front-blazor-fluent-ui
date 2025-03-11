@@ -5,7 +5,7 @@ using System;
 
 namespace FrontBlazorFluentUI.Layout;
 
-public sealed partial class Footer : IDisposable
+public sealed partial class MainFooter : IDisposable
 {
     [Inject] private UserContext UserContext { get; set; } = default!;
 

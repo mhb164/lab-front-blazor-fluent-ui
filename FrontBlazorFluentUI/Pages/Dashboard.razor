@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject UserContext UserContext
 @inject NavigationManager NavigationManager
+@inject LayoutService LayoutService
 
 <PageTitle>Front Blazor FluentUI</PageTitle>
 
@@ -30,6 +31,8 @@
 
     protected override void OnInitialized()
     {
+        LayoutService.Title = "Dashboard";
+
         //NavigationManager.NavigateTo("/sign-in");
     }
 }

@@ -11,7 +11,7 @@ public sealed partial class UserMenu : IDisposable
     [Inject] public required AuthService AuthService { get; set; } = default!;
     [Inject] private UserContext UserContext { get; set; } = default!;
 
-    private bool _userMenuVisiable = false;
+    private bool _userMenuVisible = false;
     private bool _serverAccessible = false;
     private string? _userMenuTitle = string.Empty;
 
@@ -41,7 +41,7 @@ public sealed partial class UserMenu : IDisposable
 
     private void OnUserMenuClick()
     {
-        _userMenuVisiable = !_userMenuVisiable;
+        _userMenuVisible = !_userMenuVisible;
     }
 
     public DesignThemeModes Mode { get; set; }
