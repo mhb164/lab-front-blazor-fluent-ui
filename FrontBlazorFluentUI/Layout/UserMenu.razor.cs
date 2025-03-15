@@ -2,6 +2,8 @@
 
 public sealed partial class UserMenu : IDisposable
 {
+    private static readonly IEnumerable<OfficeColor?> AllOfficeColors = Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i);
+
     [Inject] public required IDialogService DialogService { get; set; } = default!;
     [Inject] public required AuthClient AuthClient { get; set; } = default!;
     [Inject] private UserContext UserContext { get; set; } = default!;
@@ -9,6 +11,18 @@ public sealed partial class UserMenu : IDisposable
     private bool _userMenuVisible = false;
     private bool _serverAccessible = false;
     private string? _userMenuTitle = string.Empty;
+
+
+    private static string? GetCustomColor(OfficeColor? color)
+    {
+        return color switch
+        {
+            null => OfficeColorUtilities.GetRandom(true).ToAttributeValue(),
+            Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Default => "#036ac4",
+            _ => color.ToAttributeValue(),
+        };
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,8 +55,7 @@ public sealed partial class UserMenu : IDisposable
 
     public DesignThemeModes Mode { get; set; }
     public OfficeColor? OfficeColor { get; set; } = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Default;
-
-
+   
     private async Task OnSwitchThemeClickAsync()
     {
         if (Mode != DesignThemeModes.Dark)
