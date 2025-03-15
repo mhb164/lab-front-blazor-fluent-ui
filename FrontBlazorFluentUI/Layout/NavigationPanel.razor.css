@@ -1,4 +1,10 @@
-﻿
-/*::deep > fluent-dialog::part(control) {
+﻿/*
+::deep > fluent-dialog::part(control) {
     padding: 0rem !important;
+}*/
+
+/*--dialog-padding*/
+/*
+:root {
+    --dialog-padding: 2px;
 }*/

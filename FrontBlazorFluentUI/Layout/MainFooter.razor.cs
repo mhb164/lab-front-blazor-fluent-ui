@@ -1,9 +1,4 @@
-﻿using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
-using System;
-
-namespace FrontBlazorFluentUI.Layout;
+﻿namespace Laboratory.Front.Layout;
 
 public sealed partial class MainFooter : IDisposable
 {

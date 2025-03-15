@@ -1,0 +1,23 @@
+﻿/*.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;*/ /* Adjust width */
+    /*height: 100vh;*/ /* Full height */
+    /*background-color: #2c3e50;*/
+    /*color: white;*/
+    /*padding-top: 20px;*/
+    /*box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);*/
+    /*transition: left 0.3s ease-in-out;*/
+/*}*/
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: rgba(44, 62, 80, 0.95);
+    color: red;
+    transition: left 0.3s ease-in-out;
+}

@@ -1,18 +1,4 @@
-﻿using Microsoft.JSInterop;
-using FrontBlazorFluentUI.Dto;
-
-namespace FrontBlazorFluentUI.Services;
-
-
-public interface IStorageProvider
-{
-    Task UpdateToken(TokenDto token);
-    Task ClearToken();
-    Task<string> GetAccessTokenAsync();
-    Task<string> GetRefreshTokenAsync();
-
-    event Action? AccessTokenChanged;
-}
+﻿namespace Laboratory.Front.Services;
 
 public class StorageProvider : IStorageProvider
 {
@@ -34,7 +20,7 @@ public class StorageProvider : IStorageProvider
     }
 
 
-    public async Task UpdateToken(TokenDto token)
+    public async Task UpdateToken(Token token)
     {
         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", AccessTokenKey, token.AccessToken);
         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", RefreshTokenKey, token.RefreshToken);
@@ -74,7 +60,7 @@ public class StorageProvider : IStorageProvider
         Task.Run(async () => await _jsRuntime.InvokeVoidAsync("eval", $@"
             window.addEventListener('storage', (event) => {{
                 if (event.key === '{AccessTokenKey}') {{
-                    DotNet.invokeMethodAsync('FrontBlazorFluentUI', '{nameof(NotifyStaticAccessTokenChanged)}');
+                    DotNet.invokeMethodAsync('Laboratory.Front', '{nameof(NotifyStaticAccessTokenChanged)}');
                 }}
             }});
         "));

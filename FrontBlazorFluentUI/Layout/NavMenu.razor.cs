@@ -1,9 +1,4 @@
-﻿using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
-using System;
-
-namespace FrontBlazorFluentUI.Layout;
+﻿namespace Laboratory.Front.Layout;
 
 public sealed partial class NavMenu : IDisposable
 {
@@ -13,6 +8,8 @@ public sealed partial class NavMenu : IDisposable
     private bool _serverAccessible = false;
     private string? _navMenuTitle = "Navigation";
     private IDialogReference? _navigationDialog;
+
+    bool ShowNavMenu = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -39,16 +36,26 @@ public sealed partial class NavMenu : IDisposable
 
     private async Task OnNavMenuClickAsync()
     {
-        _navigationDialog = await DialogService.ShowPanelAsync<NavigationPanel>(new DialogParameters()
-        {
-            ShowTitle = true,
-            Title = "Fluent UI",
-            Alignment = HorizontalAlignment.Left,
-            PrimaryAction = null,
-            SecondaryAction = null,
-            ShowDismiss = true
-        });
+        //var options = new DialogOptions
+        //{
+        //    CssClass = "custom-panel" // Apply the CSS override
+        //};
+        ShowNavMenu = true;
+        //_navigationDialog = await DialogService.ShowPanelAsync<NavigationPanel>(new DialogParameters()
+        //{
+        //    Alignment = HorizontalAlignment.Left,
+        //    PrimaryAction = null,
+        //    SecondaryAction = null,
+        //    ShowDismiss = true,
+        //    DialogType = DialogType.Panel,
+        //});
 
-        DialogResult result = await _navigationDialog.Result;
-    } 
+        //DialogResult result = await _navigationDialog.Result;
+    }
+
+    private async Task OnCloseAsync()
+    {
+        ShowNavMenu = false;
+    }
+
 }

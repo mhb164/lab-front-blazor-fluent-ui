@@ -1,24 +1,15 @@
-﻿using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.FluentUI.AspNetCore.Components;
-using FrontBlazorFluentUI.Dto;
-using System.ComponentModel.DataAnnotations;
-
-namespace FrontBlazorFluentUI.Components;
+﻿namespace Laboratory.Front.Components;
 
 public partial class SignInPanel
 {
-    [Inject]
-    public required AuthService AuthService { get; set; }
+    [Inject] public required AuthClient AuthService { get; set; }
 
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
+    [CascadingParameter] public FluentDialog Dialog { get; set; } = default!;
 
     private SignInModel _content = new();
     private EditContext _editContext = default!;
 
-    public bool ErrorMessageHasValue=> _errorMessage != null;
+    public bool ErrorMessageHasValue => _errorMessage != null;
     private string? _errorMessage;
     private bool _isSubmiting = false;
 
@@ -32,7 +23,7 @@ public partial class SignInPanel
         if (_editContext.Validate()) return "color: var(--accent-base-color);";
         return "color: var(--warning);";
     }
-    
+
     private async Task SubmitSignInAsync()
     {
         if (!_editContext.Validate())

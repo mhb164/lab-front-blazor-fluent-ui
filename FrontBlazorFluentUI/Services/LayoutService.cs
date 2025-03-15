@@ -1,9 +1,9 @@
-﻿namespace FrontBlazorFluentUI.Services;
+﻿namespace Laboratory.Front.Services;
 
 public class LayoutService
 {
     public event Action? OnChange;
-    private string _title = "Front Blazor FluentUI";
+    private string _title = "Loading....";
 
     public string Title
     {

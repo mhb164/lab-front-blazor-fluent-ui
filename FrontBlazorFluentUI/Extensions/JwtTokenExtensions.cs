@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-
-namespace FrontBlazorFluentUI.Extensions;
+﻿namespace Laboratory.Front.Extensions;
 
 public static class JwtTokenExtensions
 {

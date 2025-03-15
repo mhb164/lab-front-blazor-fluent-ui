@@ -1,9 +1,4 @@
-﻿using FrontBlazorFluentUI.Components;
-using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
-
-namespace FrontBlazorFluentUI.Layout;
+﻿namespace Laboratory.Front.Layout;
 
 public sealed partial class MainHeader : IDisposable
 {

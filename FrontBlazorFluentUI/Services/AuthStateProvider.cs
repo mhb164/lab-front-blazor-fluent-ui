@@ -1,20 +1,16 @@
-﻿using FrontBlazorFluentUI.Auth;
-using FrontBlazorFluentUI.Dto;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿namespace Laboratory.Front.Services;
 
-namespace FrontBlazorFluentUI.Services;
-
-public class AuthStateProvider : AuthenticationStateProvider
+public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
     public static readonly string RefreshTokenHeaderName = "refresh_token";
 
     private readonly ILogger? _logger;
     private readonly IStorageProvider _storage;
-    private readonly ApiClient _apiClient;
+    private readonly IApiClient _apiClient;
     private readonly UserContext _userContext;
     private Timer? _refreshTimer;
 
-    public AuthStateProvider(ILogger<AuthStateProvider>? logger, IStorageProvider storage, ApiClient apiClient, UserContext userContext)
+    public AuthStateProvider(ILogger<AuthStateProvider>? logger, IStorageProvider storage, IApiClient apiClient, UserContext userContext)
     {
         _logger = logger;
         _storage = storage;
@@ -60,7 +56,7 @@ public class AuthStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged();
     }
 
-    public async Task UpdateToken(TokenDto token)
+    public async Task UpdateToken(Token token)
     {
         _logger?.LogInformation("AuthStateProvider> UpdateToken called");
 
@@ -138,7 +134,7 @@ public class AuthStateProvider : AuthenticationStateProvider
         if (string.IsNullOrWhiteSpace(refreshToken))
             return ServiceResult.Unauthorized();
 
-        var refreshTokenResult = await _apiClient.Post<TokenDto>("/refresh-token", new KeyValuePair<string, string>(RefreshTokenHeaderName, refreshToken));
+        var refreshTokenResult = await _apiClient.Post<Token>("/refresh-token", new KeyValuePair<string, string>(RefreshTokenHeaderName, refreshToken));
         if (refreshTokenResult.IsFailed || refreshTokenResult.Value is null)
         {
             await ClearToken();

@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Laboratory.Front</AssemblyName>
+    <AssemblyTitle>$(AssemblyName) $(AssemblyTitleSufix)</AssemblyTitle>
+	<PackageTags>C052538B-BE7C-46C4-9CFB-223685FDD2BC</PackageTags>
+    <RootNamespace>Laboratory.Front</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Basis\Common\Common.csproj" />
+    <ProjectReference Include="..\Basis\Shared.TypicalAuth\Shared.TypicalAuth.csproj" />
+    <ProjectReference Include="..\Basis\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Core\BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="..\Core\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

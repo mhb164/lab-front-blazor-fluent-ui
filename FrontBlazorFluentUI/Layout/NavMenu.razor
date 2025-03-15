@@ -1,6 +1,29 @@
 ﻿@if (_serverAccessible)
 {
-    <FluentButton id="NavMenu" BackgroundColor="var(--accent-fill-rest)" Appearance="Appearance.Stealth" OnClick="OnNavMenuClickAsync" Title="@_navMenuTitle">
-        <FluentIcon Value="@(new Icons.Regular.Size24.Navigation())" Color="Color.Neutral" Title="@_navMenuTitle" />
+    <FluentButton id="NavMenu" Appearance="Appearance.Lightweight" OnClick="OnNavMenuClickAsync" Title="@_navMenuTitle">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Navigation())" Color="Color.Accent" Title="@_navMenuTitle" />
     </FluentButton>
+
+    @if (ShowNavMenu)
+    {
+        <div class="sidebar">
+            <FluentStack Orientation="Orientation.Vertical">
+                <div>
+                    <FluentButton Appearance="Appearance.Lightweight" OnClick="OnCloseAsync">
+                        <FluentIcon Value="@(new Icons.Regular.Size24.ArrowCircleLeft())" Color="Color.Accent" />
+                    </FluentButton>
+                    <FluentSpacer />
+                </div>
+                <FluentNavMenu>
+                    <FluentNavLink Href="/" OnClick="OnCloseAsync" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.History())" IconColor="Color.Accent">Dashboard</FluentNavLink>
+                    <FluentNavLink Href="counter" OnClick="OnCloseAsync" Icon="@(new Icons.Regular.Size20.NumberSymbolSquare())" IconColor="Color.Accent">Counter</FluentNavLink>
+                    <AuthorizeView>
+                        @* <FluentNavLink Href="weather" Icon="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Weather</FluentNavLink> *@
+                    </AuthorizeView>
+                    <FluentNavLink Href="permits" OnClick="OnCloseAsync" Icon="@(new Icons.Regular.Size20.Person())" IconColor="Color.Accent">Permits</FluentNavLink>
+
+                </FluentNavMenu>
+            </FluentStack>
+        </div>
+    }
 }

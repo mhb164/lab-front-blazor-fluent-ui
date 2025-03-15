@@ -32,6 +32,10 @@ footer {
     background: linear-gradient(to bottom, var(--neutral-layer-3), var(--neutral-fill-secondary-rest)) !important;
 }
 
+.unselectable {
+    user-select: none;
+}
+
 .navmenu-icon {
     display: none;
 }

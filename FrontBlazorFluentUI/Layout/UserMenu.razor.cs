@@ -1,14 +1,9 @@
-﻿using FrontBlazorFluentUI.Components;
-using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
-
-namespace FrontBlazorFluentUI.Layout;
+﻿namespace Laboratory.Front.Layout;
 
 public sealed partial class UserMenu : IDisposable
 {
     [Inject] public required IDialogService DialogService { get; set; } = default!;
-    [Inject] public required AuthService AuthService { get; set; } = default!;
+    [Inject] public required AuthClient AuthClient { get; set; } = default!;
     [Inject] private UserContext UserContext { get; set; } = default!;
 
     private bool _userMenuVisible = false;
@@ -77,7 +72,7 @@ public sealed partial class UserMenu : IDisposable
         if (result.Cancelled)
             return;
 
-        await AuthService.SignOutAsync();
+        await AuthClient.SignOutAsync();
     }
 
    

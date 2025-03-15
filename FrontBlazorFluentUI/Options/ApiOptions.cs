@@ -1,6 +1,4 @@
-﻿using FrontBlazorFluentUI.Model;
-
-namespace FrontBlazorFluentUI.Options;
+﻿namespace Laboratory.Front.Options;
 
 public class ApiOptions
 {

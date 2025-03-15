@@ -1,21 +1,10 @@
-﻿using FrontBlazorFluentUI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.FluentUI.AspNetCore.Components;
-using FrontBlazorFluentUI.Dto;
-using System.ComponentModel.DataAnnotations;
-
-namespace FrontBlazorFluentUI.Components;
+﻿namespace Laboratory.Front.Components;
 
 public partial class ChangeLocalPasswordPanel
 {
-    [Inject]
-    public required UserContext UserContext { get; set; }
-    [Inject]
-    public required AuthService AuthService { get; set; }
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
+    [Inject] public required UserContext UserContext { get; set; }
+    [Inject] public required AuthClient AuthService { get; set; }
+    [CascadingParameter] public FluentDialog Dialog { get; set; } = default!;
 
     private ChangePasswordModel _content = new();
     private EditContext _editContext = default!;

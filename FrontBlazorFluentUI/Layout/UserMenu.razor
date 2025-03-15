@@ -2,8 +2,8 @@
 
 @if (_serverAccessible)
 {
-    <FluentButton id="UserMenu" BackgroundColor="var(--accent-fill-rest)" Appearance="Appearance.Stealth" OnClick="OnUserMenuClick" Title="@_userMenuTitle">
-        <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Color="Color.Neutral" Title="@_userMenuTitle" />
+    <FluentButton id="UserMenu" Appearance="Appearance.Lightweight" OnClick="OnUserMenuClick" Title="@_userMenuTitle">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Color="Color.Accent" Title="@_userMenuTitle" />
     </FluentButton>
 
     <FluentMenu Anchor="UserMenu" @bind-Open="_userMenuVisible">

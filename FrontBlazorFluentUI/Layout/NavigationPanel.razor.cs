@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Extensions;
-using Microsoft.FluentUI.AspNetCore.Components;
-
-namespace FrontBlazorFluentUI.Layout;
+﻿namespace Laboratory.Front.Layout;
 public partial class NavigationPanel
 {
     private string? _status;
@@ -10,8 +6,7 @@ public partial class NavigationPanel
     private bool _ltr = true;
     private FluentDesignTheme? _theme;
 
-    //[Inject]
-    //public required CacheStorageAccessor CacheStorageAccessor { get; set; }
+    [CascadingParameter] public FluentDialog Dialog { get; set; } = default!;
 
     [Inject]
     public required GlobalState GlobalState { get; set; }
@@ -65,5 +60,10 @@ public partial class NavigationPanel
             _ => color.ToAttributeValue(),
         };
 
+    }
+
+    private async Task OnCloseAsync()
+    {
+        await Dialog.CloseAsync();
     }
 }

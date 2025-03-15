@@ -1,11 +1,4 @@
-﻿using FrontBlazorFluentUI.Auth;
-using FrontBlazorFluentUI.Dto;
-using FrontBlazorFluentUI.Extensions;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-namespace FrontBlazorFluentUI.Services;
+﻿namespace Laboratory.Front.Services;
 
 public class UserContext
 {
@@ -15,7 +8,7 @@ public class UserContext
 
     private ContextOverview? _serverOverview;
     private ClientUser? _user;
-    
+
     public UserContext(ILogger<UserContext>? logger)
     {
         _logger = logger;
@@ -30,7 +23,7 @@ public class UserContext
 
     public AuthenticationState AuthenticationState => new AuthenticationState(Principal);
     public bool Authenticated => User != null;
-    public bool ForceChangeLocalPassword => User?.ChangeLocalPasswordRequired == true && _user?.Auth?.Type == AuthType.Locally;
+    public bool ForceChangeLocalPassword => User?.ChangeLocalPasswordRequired == true && _user?.Auth?.Type == ClientAuthType.Locally;
     public string Title => User?.Nickname ?? UnknownTitle;
 
     public void Reset(ContextOverview overview, string accessToken)
@@ -93,19 +86,18 @@ public class UserContext
             if (jwtSecurityToken == null)
                 return null;
 
-            var token = new ClientToken(id: jwtSecurityToken.GetClaimGuid(ClaimNames.TokenId),
+            var token = new ClientToken(id: jwtSecurityToken.GetClaimValue(ClaimNames.TokenId), guid: null,
               audience: jwtSecurityToken.Audiences.FirstOrDefault(),
               issuer: jwtSecurityToken.Issuer,
               issuedAt: jwtSecurityToken.IssuedAt,
               expirationTime: jwtSecurityToken.GetClaimTime(ClaimNames.ExpirationTime));
 
             var auth = new ClientAuth(typeText: jwtSecurityToken.GetClaimValue(ClaimNames.AuthType),
-                username: jwtSecurityToken.GetClaimValue(ClaimNames.AuthUsername),
+                detail: jwtSecurityToken.GetClaimValue(ClaimNames.AuthDetail),
                 time: jwtSecurityToken.GetClaimTime(ClaimNames.AuthTime));
 
             var user = new ClientUser(token: token, auth,
-                username: jwtSecurityToken.GetClaimValue(ClaimNames.Username),
-                fullname: jwtSecurityToken.GetClaimValue(ClaimNames.Fullname),
+                id: jwtSecurityToken.GetClaimGuid(ClaimNames.UserId),
                 firstname: jwtSecurityToken.GetClaimValue(ClaimNames.Firstname),
                 lastname: jwtSecurityToken.GetClaimValue(ClaimNames.Lastname),
                 nickname: jwtSecurityToken.GetClaimValue(ClaimNames.Lastname),
