@@ -146,3 +146,28 @@ code {
         row-gap: 0 !important;
     }
 }
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: calc(100dvh - 32px);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, var(--neutral-fill-secondary-rest), var(--neutral-layer-3)) !important;
+    color: var(--accent-fill-rest);
+    transition: left 0.3s ease-in-out;
+}
+
+.sidebar-header {
+    height: 50px !important;
+    padding: 8px !important;
+    flex-shrink: 0; /* Ensures it doesn't shrink */
+}
+
+.scrollable-menu {
+    flex-grow: 1; /* Takes up remaining space */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
