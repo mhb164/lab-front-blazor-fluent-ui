@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Model;
+﻿namespace Shared.Model;
 
 public class ErrorResponse
 {

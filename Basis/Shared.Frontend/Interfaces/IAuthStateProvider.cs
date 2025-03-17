@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Interfaces;
+﻿namespace Shared.Interfaces;
 
 public interface IAuthStateProvider
 {

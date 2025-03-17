@@ -7,6 +7,10 @@
     </FluentButton>
 
     <FluentMenu Anchor="UserMenu" @bind-Open="_userMenuVisible">
+        <FluentLabel Class="unselectable" Weight="FontWeight.Bold" Color="Color.Accent" Typo="Typography.Subject" Alignment=" HorizontalAlignment.Center">
+            @_userMenuTitle
+        </FluentLabel>
+        <FluentDivider />
         <FluentMenuItem OnClick="OnSwitchThemeClickAsync">
             <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Accent" Slot="start" /></span>
             Switch to

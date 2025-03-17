@@ -50,10 +50,10 @@ public partial class SignInPanel
     private sealed class SignInModel
     {
         [MinLength(1, ErrorMessage = $"{nameof(Username)} Should not be empty")]
-        public string Username { get; set; } = string.Empty;
+        public string? Username { get; set; } = string.Empty;
 
         [MinLength(1, ErrorMessage = $"{nameof(Password)} Should not be empty")]
-        public string Password { get; set; } = string.Empty;
+        public string? Password { get; set; } = string.Empty;
 
         public SignInRequest ToApiModel()
             => new SignInRequest(Username, Password);

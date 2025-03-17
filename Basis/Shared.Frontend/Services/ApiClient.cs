@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Services;
+﻿namespace Shared.Services;
 
 public sealed class ApiClient: IApiClient
 {

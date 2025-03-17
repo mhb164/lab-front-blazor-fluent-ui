@@ -40,7 +40,7 @@ public partial class ChangeLocalPasswordPanel
             return;
         }
 
-        var result = await AuthService.ChangePasswordAsync(new(_content.CurrentPassword, _content.NewPassword));
+        var result = await AuthService.ChangePasswordAsync(_content.ToApiModel());
 
         if (result.IsSuccess)
         {
@@ -66,15 +66,15 @@ public partial class ChangeLocalPasswordPanel
     private sealed class ChangePasswordModel
     {
         [Required(ErrorMessage = "Current password is required")]
-        public string CurrentPassword { get; set; }
+        public string? CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "New password is required")]
         [MinLength(1, ErrorMessage = "Password must be at least 1 characters long")]
-        public string NewPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         [Required(ErrorMessage = "Confirm password is required")]
         [Compare("NewPassword", ErrorMessage = "New Password and Confirm Password do not match")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
 
         public ChangeLocalPasswordRequest ToApiModel()
            => new ChangeLocalPasswordRequest(CurrentPassword, NewPassword);

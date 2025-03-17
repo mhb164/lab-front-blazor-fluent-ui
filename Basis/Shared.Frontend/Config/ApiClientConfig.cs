@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Config;
+﻿namespace Shared.Config;
 
 public class ApiClientConfig
 {

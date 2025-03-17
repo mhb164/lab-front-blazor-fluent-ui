@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Services;
+﻿namespace Shared.Services;
 
 public class StorageProvider : IStorageProvider
 {
@@ -60,7 +60,7 @@ public class StorageProvider : IStorageProvider
         Task.Run(async () => await _jsRuntime.InvokeVoidAsync("eval", $@"
             window.addEventListener('storage', (event) => {{
                 if (event.key === '{AccessTokenKey}') {{
-                    DotNet.invokeMethodAsync('Laboratory.Front', '{nameof(NotifyStaticAccessTokenChanged)}');
+                    DotNet.invokeMethodAsync('Laboratory.Shared.Frontend', '{nameof(NotifyStaticAccessTokenChanged)}');
                 }}
             }});
         "));
