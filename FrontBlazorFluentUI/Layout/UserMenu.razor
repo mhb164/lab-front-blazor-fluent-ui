@@ -19,27 +19,27 @@
                 <span>Dark</span>
             }
         </FluentMenuItem>
+        <FluentMenuItem Label="Color" KeepOpen="true">
+            <MenuItems>
+                @foreach (var item in AllOfficeColors)
+                {
+                    <FluentMenuItem OnClick="@(()=>OfficeColor = item)">
+                        <span slot="start">
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Color())" Color="Color.Custom" CustomColor="@GetCustomColor(@item)" Slot="start" />
+                        </span>
+                        @item
+                    </FluentMenuItem>
+                }
+            </MenuItems>
+        </FluentMenuItem>
 
+        <FluentDivider />
         <AuthorizeView>
             <Authorized>
                 <FluentMenuItem OnClick="OnChangeLocalPasswordAsync">
                     <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.PersonPasskey())" Color="Color.Accent" Slot="start" /></span>
                     Change Local Password
-                </FluentMenuItem>               
-                <FluentMenuItem Label="Color" KeepOpen="true">
-                    <MenuItems>
-                        @foreach (var item in AllOfficeColors)
-                        {
-                            <FluentMenuItem OnClick="@(()=>OfficeColor = item)" >
-                                <span slot="start">
-                                    <FluentIcon Value="@(new Icons.Regular.Size20.Color())" Color="Color.Custom" CustomColor="@GetCustomColor(@item)" Slot="start" />
-                                </span>
-                                @item
-                            </FluentMenuItem>
-                        }
-                    </MenuItems>
                 </FluentMenuItem>
-                <FluentDivider />
                 <FluentMenuItem OnClick="OnSignOutAsync">
                     <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size20.SignOut())" Color="Color.Warning" Slot="start" /></span>
                     Sign Out

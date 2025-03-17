@@ -8,12 +8,18 @@
 
     @if (ShowNavMenu)
     {
+        <div class="sidebar-backdrop" @onmousedown="OnCloseAsync"></div>
+
         <div class="sidebar">
-            <div class="sidebar-header" style="">
-                <FluentButton Appearance="Appearance.Lightweight" OnClick="OnCloseAsync">
-                    <FluentIcon Value="@(new Icons.Regular.Size24.ArrowCircleLeft())" Color="Color.Accent" />
-                </FluentButton>
-                <FluentSpacer />
+            <div class="sidebar-header">
+                <FluentStack>
+                    <FluentButton Appearance="Appearance.Lightweight" OnClick="OnCloseAsync">
+                        <FluentIcon Value="@(new Icons.Regular.Size24.ArrowCircleLeft())" Color="Color.Accent" />
+                    </FluentButton>
+                    <FluentLabel Typo="Typography.H3" Color="@Color.Accent" Alignment="HorizontalAlignment.Center">
+                        Labb Front
+                    </FluentLabel>
+                </FluentStack>
             </div>
             <div class="scrollable-menu">
                 <FluentNavMenu>
