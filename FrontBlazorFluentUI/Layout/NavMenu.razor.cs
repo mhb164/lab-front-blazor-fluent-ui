@@ -3,11 +3,9 @@
 public sealed partial class NavMenu : IDisposable
 {
     [Inject] private UserContext UserContext { get; set; } = default!;
-    [Inject] private IDialogService DialogService { get; set; } = default!;
 
     private bool _serverAccessible = false;
-    private string? _navMenuTitle = "Navigation";
-    private IDialogReference? _navigationDialog;
+    private string? _navMenuTitle = "Front LAB";
 
     bool ShowNavMenu = false;
 

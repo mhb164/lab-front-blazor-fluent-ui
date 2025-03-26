@@ -13,6 +13,12 @@ public class AuthClient
         _authStateProvider = authStateProvider ?? throw new ArgumentNullException(nameof(authStateProvider));
     }
 
+    public async Task<ServiceResult<SignInOptions>> GetSignInOptionsAsync()
+    {
+        var serviceResult = await _apiClient.Get<SignInOptions>("/sign-in-options");
+        return serviceResult;
+    }
+
     public async Task<ServiceResult> SignInAsync(SignInRequest request)
     {
         var signInResult = await _apiClient.Post<SignInRequest, Token>("/sign-in", request);
@@ -22,7 +28,7 @@ public class AuthClient
             return ServiceResult.From(signInResult);
         }
 
-        await _authStateProvider.UpdateToken(signInResult.Value);
+        await _authStateProvider.UpdateToken(signInResult.Value, true);
         return ServiceResult.Success();
     }
 

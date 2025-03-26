@@ -3,6 +3,6 @@
 public interface IAuthStateProvider
 {
     Task ClearToken();
-    Task UpdateToken(Token value);
+    Task UpdateToken(Token token, bool notify);
     Task<ServiceResult> RefreshTokenAsync();
 }

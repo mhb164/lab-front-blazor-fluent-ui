@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Frontend", "Basis\Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontBlazor.Core", "FrontBlazor.Core\FrontBlazor.Core.csproj", "{26B95966-1EC1-405C-9395-597091BE2DC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.TypicalAuth.Frontend", "Basis\Shared.TypicalAuth.Frontend\Shared.TypicalAuth.Frontend.csproj", "{29211027-8258-4227-85C9-9B342F855D59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{26B95966-1EC1-405C-9395-597091BE2DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26B95966-1EC1-405C-9395-597091BE2DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26B95966-1EC1-405C-9395-597091BE2DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29211027-8258-4227-85C9-9B342F855D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29211027-8258-4227-85C9-9B342F855D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29211027-8258-4227-85C9-9B342F855D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29211027-8258-4227-85C9-9B342F855D59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{2A32FA62-A647-B38D-DFE0-73937A88CE98} = {D9BAFAF2-D949-4052-977F-5DD9BD0DA6C5}
 		{0A96CE01-F12E-B634-796E-556C8E776279} = {D9BAFAF2-D949-4052-977F-5DD9BD0DA6C5}
 		{03981347-C2B4-D32F-8C74-2C4F25907362} = {D9BAFAF2-D949-4052-977F-5DD9BD0DA6C5}
+		{29211027-8258-4227-85C9-9B342F855D59} = {D9BAFAF2-D949-4052-977F-5DD9BD0DA6C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1D5BF83-3039-4DF5-9782-59150DB138CE}

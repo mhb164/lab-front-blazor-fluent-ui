@@ -12,7 +12,7 @@ public class UserContext
     public UserContext(ILogger<UserContext>? logger)
     {
         _logger = logger;
-        _logger?.LogInformation("UserContext> Created!");
+        _logger?.LogInformation("[USER] Created!");
     }
 
     public ContextOverview? Overview => _serverOverview;
@@ -30,7 +30,7 @@ public class UserContext
     {
         _serverOverview = overview;
         ResetInternal(CreateClientUserFromToken(accessToken, _logger));
-        _logger?.LogInformation("UserContext> Reset by accessToken (Nickname: {Nickname})!", User?.Nickname);
+        _logger?.LogInformation("[USER] Reset by accessToken (Nickname: {Nickname})!", User?.Nickname);
 
     }
 
@@ -38,7 +38,7 @@ public class UserContext
     {
         _serverOverview = overview;
         ResetInternal(null);
-        _logger?.LogInformation("UserContext> Reset to null!");
+        _logger?.LogInformation("[USER] Reset to null!");
     }
 
     private void ResetInternal(ClientUser? user = null)

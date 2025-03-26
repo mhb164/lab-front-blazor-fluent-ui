@@ -9,6 +9,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
     private readonly IApiClient _apiClient;
     private readonly UserContext _userContext;
     private Timer? _refreshTimer;
+    private DateTime? _refreshExpirationTime;
 
     public AuthStateProvider(ILogger<AuthStateProvider>? logger, IStorageProvider storage, IApiClient apiClient, UserContext userContext)
     {
@@ -38,30 +39,34 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 
     private UserContext OnServerIsNotAccessible()
     {
-        _logger?.LogInformation("AuthStateProvider> On server is not accessible!");
+        _logger?.LogInformation("[AUTH] On server is not accessible!");
         _userContext.Reset(null);
         return _userContext;
     }
     private void OnAccessTokenChanged()
     {
-        _logger?.LogInformation("AuthStateProvider> storage-> AccessTokenChanged");
+        _logger?.LogInformation("[AUTH] storage-> AccessTokenChanged");
         NotifyAuthenticationStateChanged();
     }
 
     public async Task ClearToken()
     {
-        _logger?.LogInformation("AuthStateProvider> ClearToken called");
+        _logger?.LogInformation("[AUTH] ClearToken called");
         await _storage.ClearToken();
         _userContext.Reset(null);
         NotifyAuthenticationStateChanged();
     }
 
-    public async Task UpdateToken(Token token)
+    public async Task UpdateToken(Token token, bool notify)
     {
-        _logger?.LogInformation("AuthStateProvider> UpdateToken called");
+        _logger?.LogInformation("[AUTH] UpdateToken called");
 
         await _storage.UpdateToken(token);
-        NotifyAuthenticationStateChanged();
+
+        if (notify)
+            NotifyAuthenticationStateChanged();
+        else
+            await GetAuthenticationStateAsync();
     }
 
     private void ScheduleTokenRefresh(ClientUser? user)
@@ -72,11 +77,19 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
             return;
         }
 
+        if (_refreshExpirationTime == user.Token.ExpirationTime)
+        {
+            _logger?.LogInformation("[AUTH] Refesh token alredy scheduled [{ExpirationTime:yyyy-MM-dd HH:mm:ss}]", user.Token.ExpirationTime.AddSeconds(-60));
+            return;
+        }
+
         var timeUntilExpiry = user.Token.ExpirationTime - DateTime.UtcNow;
         var refreshTime = timeUntilExpiry.TotalSeconds > 60 ? timeUntilExpiry.TotalSeconds - 60 : 30; // Refresh 1 minute before expiry
 
         _refreshTimer?.Dispose();
         _refreshTimer = new Timer(async _ => await RefreshTokenAsync(), null, (int)(refreshTime * 1000), Timeout.Infinite);
+        _refreshExpirationTime = user.Token.ExpirationTime;
+        _logger?.LogInformation("[AUTH] Refesh token scheduled for {RefreshTime:N1} minute", refreshTime/60);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -124,7 +137,6 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
         return ResetUser(overview, accessToken).AuthenticationState;
     }
 
-    // Call this after login/logout to force a re-check of the authentication state.
     public void NotifyAuthenticationStateChanged() =>
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
 
@@ -141,7 +153,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
             return ServiceResult.From(refreshTokenResult);
         }
 
-        await UpdateToken(refreshTokenResult.Value);
+        await UpdateToken(refreshTokenResult.Value, false);
         return ServiceResult.Success();
     }
 }

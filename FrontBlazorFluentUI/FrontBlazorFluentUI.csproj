@@ -19,12 +19,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Basis\Common\Common.csproj" />
     <ProjectReference Include="..\Basis\Shared.Frontend\Shared.Frontend.csproj" />
+    <ProjectReference Include="..\Basis\Shared.TypicalAuth.Frontend\Shared.TypicalAuth.Frontend.csproj" />
     <ProjectReference Include="..\Basis\Shared.TypicalAuth\Shared.TypicalAuth.csproj" />
     <ProjectReference Include="..\Basis\Shared\Shared.csproj" />
     <ProjectReference Include="..\FrontBlazor.Core\FrontBlazor.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="Services\" />
   </ItemGroup>
 </Project>

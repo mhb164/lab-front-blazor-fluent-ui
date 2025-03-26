@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Components;
+﻿namespace Shared.Components;
 
 public partial class SignInPanel
 {
@@ -6,6 +6,7 @@ public partial class SignInPanel
 
     [CascadingParameter] public FluentDialog Dialog { get; set; } = default!;
 
+    private SignInOptions? _options;
     private SignInModel _content = new();
     private EditContext _editContext = default!;
 
@@ -13,9 +14,19 @@ public partial class SignInPanel
     private string? _errorMessage;
     private bool _isSubmiting = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _editContext = new EditContext(_content);
+        var getOptionsResult = await AuthService.GetSignInOptionsAsync();
+        if (getOptionsResult.IsSuccess)
+        {
+            _options = getOptionsResult.Value!;
+            _content.Type = _options.Types.FirstOrDefault();
+        }
+        else
+        {
+            await OnCloseAsync();
+        }
     }
 
     private string StyleForSubmit()
@@ -49,6 +60,9 @@ public partial class SignInPanel
 
     private sealed class SignInModel
     {
+        [MinLength(1, ErrorMessage = $"{nameof(Type)} Should not be empty")]
+        public string? Type { get; set; } = string.Empty;
+
         [MinLength(1, ErrorMessage = $"{nameof(Username)} Should not be empty")]
         public string? Username { get; set; } = string.Empty;
 
@@ -56,6 +70,6 @@ public partial class SignInPanel
         public string? Password { get; set; } = string.Empty;
 
         public SignInRequest ToApiModel()
-            => new SignInRequest(Username, Password);
+            => new SignInRequest(Type, Username, Password);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Laboratory.Front.Components;
+﻿namespace Shared.Components;
 
 public partial class ChangeLocalPasswordPanel
 {

@@ -1,0 +1,52 @@
+﻿@implements IDialogContentComponent
+
+<FluentDialog aria-label="Simple dialog" Modal="true" TrapFocus="false">
+    <FluentDialogHeader Visible="false" />
+
+    <FluentLabel Style="margin-bottom: 1rem;" Typo="Typography.H2"
+                 Color="@Color.Custom" CustomColor="#00929D"
+                 Alignment="HorizontalAlignment.Center">
+        Sign In
+    </FluentLabel>
+
+    @if (_options != null)
+    {
+        <EditForm EditContext="@_editContext" OnValidSubmit="SubmitSignInAsync">
+            <DataAnnotationsValidator />
+            <FluentStack Style="width: 100%; margin-bottom: 10px;">
+                <FluentSelect @bind-Value="_content.Type" Width="Auto"  Appearance="Appearance.Filled" TOption="string" Items="@_options.Types" />
+                <FluentTextField @bind-Value="_content.Username" Required Placeholder="Username" Style="width:100% ;" />
+            </FluentStack>
+            <FluentTextField @bind-Value="_content.Password" Required Placeholder="Password" Type="password" Style="width: 100%; margin-bottom: 10px;" />
+
+            <FluentStack>
+                <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Neutral" Style="width: 50%;" Disabled="@(_isSubmiting)">
+                    <FluentStack>
+                        @if (_isSubmiting)
+                        {
+                            <FluentLabel>Signing In...</FluentLabel>
+                        }
+                        else
+                        {
+                            <FluentLabel Style="@StyleForSubmit()">Sign In</FluentLabel>
+                        }
+                    </FluentStack>
+
+                </FluentButton>
+
+                <FluentButton Style="width: 50%;" Appearance="Appearance.Neutral" @onclick="OnCloseAsync">Close</FluentButton>
+            </FluentStack>
+            @if (_isSubmiting)
+            {
+                <FluentProgress></FluentProgress>
+            }
+
+            @if (ErrorMessageHasValue)
+            {
+                <FluentLabel Color="@Color.Error">@_errorMessage</FluentLabel>
+            }
+
+        </EditForm>
+    }
+</FluentDialog>
+
