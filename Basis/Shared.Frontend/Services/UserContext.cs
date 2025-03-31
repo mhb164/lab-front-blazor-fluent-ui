@@ -100,7 +100,7 @@ public class UserContext
                 id: jwtSecurityToken.GetClaimGuid(ClaimNames.UserId),
                 firstname: jwtSecurityToken.GetClaimValue(ClaimNames.Firstname),
                 lastname: jwtSecurityToken.GetClaimValue(ClaimNames.Lastname),
-                nickname: jwtSecurityToken.GetClaimValue(ClaimNames.Lastname),
+                nickname: jwtSecurityToken.GetClaimValue(ClaimNames.Nickname),
                 locallyAvailable: jwtSecurityToken.GetClaimBoolean(ClaimNames.LocallyAvailable),
                 changeLocalPasswordRequired: jwtSecurityToken.GetClaimBoolean(ClaimNames.ChangeLocalPasswordRequired),
                 readOnly: jwtSecurityToken.GetClaimBoolean(ClaimNames.ReadOnly),

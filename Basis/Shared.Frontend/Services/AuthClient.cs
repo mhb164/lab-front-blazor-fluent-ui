@@ -18,7 +18,7 @@ public class AuthClient
         var serviceResult = await _apiClient.Get<SignInOptions>("/sign-in-options");
         return serviceResult;
     }
-
+   
     public async Task<ServiceResult> SignInAsync(SignInRequest request)
     {
         var signInResult = await _apiClient.Post<SignInRequest, Token>("/sign-in", request);
@@ -53,4 +53,11 @@ public class AuthClient
         catch { }
         await _authStateProvider.ClearToken();
     }
+
+    public async Task<ServiceResult<UserInfo>> GetUserInfoAsync()
+    {
+        var serviceResult = await _apiClient.Get<UserInfo>("/user-info");
+        return serviceResult;
+    }
+
 }

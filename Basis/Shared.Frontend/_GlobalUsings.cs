@@ -1,6 +1,7 @@
 ﻿global using Common;
 global using Shared.Config;
 global using Shared.Dto;
+global using Shared.Dto.Requests;
 global using Shared.Extensions;
 global using Shared.Interfaces;
 global using Shared.Model;

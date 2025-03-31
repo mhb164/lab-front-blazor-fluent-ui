@@ -1,10 +1,19 @@
-﻿namespace Shared.Dto;
+﻿namespace Shared.Dto.Requests;
 
 public class SignInRequest
 {
     public SignInRequest() { /* Method intentionally left empty.*/ }
     public SignInRequest(string? type, string? username, string? password)
     {
+        if (string.IsNullOrWhiteSpace(type))
+            throw new ArgumentException($"{nameof(type)} is required!", nameof(type));
+
+        if (string.IsNullOrWhiteSpace(username))
+            throw new ArgumentException($"{nameof(username)} is required!", nameof(username));
+
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException($"{nameof(password)} is required!", nameof(password));
+
         Type = type;
         Username = username;
         Password = password;
@@ -19,7 +28,7 @@ public class SignInRequest
         if (string.IsNullOrWhiteSpace(Type))
             return ServiceResult.BadRequest($"{nameof(Type)} is required!");
 
-        if (isTypeValid(Type!))
+        if (!isTypeValid(Type!))
             return ServiceResult.BadRequest($"{nameof(Type)}[{Type}] is not valid!");
 
         if (string.IsNullOrWhiteSpace(Username))
