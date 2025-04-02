@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<VersionPrefix>1.17.0</VersionPrefix>
+		<VersionPrefix>1.18.0</VersionPrefix>
 		<VersionSufix>alpha</VersionSufix>
 
 		<Version>$(VersionPrefix)</Version>
@@ -21,8 +21,8 @@
 		<Product>Frontend Laboratory</Product>
 
 		<RootNamespace>Laboratory.Frontend</RootNamespace>
-	</PropertyGroup>
 
-	
-	
+		<CommonPackageVersion>9.0.3</CommonPackageVersion>
+		<FluentUIVersion>4.11.7</FluentUIVersion>
+	</PropertyGroup>	
 </Project>
