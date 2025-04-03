@@ -1,6 +1,8 @@
-﻿namespace Shared.Services;
+﻿using System.Reflection.PortableExecutable;
 
-public sealed class ApiClient: IApiClient
+namespace Shared.Services;
+
+public sealed class ApiClient : IApiClient
 {
     private readonly ILogger? _logger;
     private readonly HttpClient _httpClient;
@@ -43,61 +45,10 @@ public sealed class ApiClient: IApiClient
         return request;
     }
 
-    public async Task<ServiceResult<TResponse>> Get<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
-    {
-        var serviceResult = new ServiceResult<TResponse>();
-        try
-        {
-            var request = await PrepareRequest(HttpMethod.Get, uriSuffix, headers);
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                return await GenerateErrorResult(serviceResult, response);
-            }
-
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
-            if (result is null)
-                return serviceResult.NoContent();
-
-            return serviceResult.Success(result);
-
-        }
-        catch (Exception ex)
-        {
-            return GenerateErrorResult(serviceResult, ex);
-        }
-    }
-
-    public async Task<ServiceResult<TResponse>> Post<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
-    {
-        var serviceResult = new ServiceResult<TResponse>();
-        try
-        {
-            var request = await PrepareRequest(HttpMethod.Post, uriSuffix, headers);
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                return await GenerateErrorResult(serviceResult, response);
-            }
-
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
-            if (result is null)
-                return serviceResult.NoContent();
-
-            return serviceResult.Success(result);
-
-        }
-        catch (Exception ex)
-        {
-            return GenerateErrorResult(serviceResult, ex);
-        }
-    }
-
-    public async Task<ServiceResult> Post(string uriSuffix, params KeyValuePair<string, string>[] headers)
+    public async Task<ServiceResult> Send(HttpRequestMessage request)
     {
         try
         {
-            var request = await PrepareRequest(HttpMethod.Post, uriSuffix, headers);
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
@@ -111,53 +62,68 @@ public sealed class ApiClient: IApiClient
             return GenerateErrorResult(ex);
         }
     }
+
+    private async Task<ServiceResult<TResponse>> Send<TResponse>(HttpRequestMessage request)
+    {
+        var serviceResult = new ServiceResult<TResponse>();
+        try
+        {
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                return await GenerateErrorResult(serviceResult, response);
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<TResponse>();
+            if (result is null)
+                return serviceResult.NoContent();
+
+            return serviceResult.Success(result);
+
+        }
+        catch (Exception ex)
+        {
+            return GenerateErrorResult(serviceResult, ex);
+        }
+    }
+
+    public async Task<ServiceResult<TResponse>> Get<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
+        => await Send<TResponse>(await PrepareRequest(HttpMethod.Get, uriSuffix, headers));
+
+    public async Task<ServiceResult<TResponse>> Post<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
+        => await Send<TResponse>(await PrepareRequest(HttpMethod.Post, uriSuffix, headers));
+
+    public async Task<ServiceResult> Post(string uriSuffix, params KeyValuePair<string, string>[] headers)
+        => await Send(await PrepareRequest(HttpMethod.Post, uriSuffix, headers));
 
     public async Task<ServiceResult> Post<TRequest>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
     {
-        try
-        {
-            var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
-            var request = await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers);
-
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                return await GenerateErrorResult(response);
-            }
-
-            return ServiceResult.Success();
-        }
-        catch (Exception ex)
-        {
-            return GenerateErrorResult(ex);
-        }
+        var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
+        return await Send(await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers));
     }
 
     public async Task<ServiceResult<TResponse>> Post<TRequest, TResponse>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
     {
-        var serviceResult = new ServiceResult<TResponse>();
-        try
-        {
-            var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
-            var request = await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers);
+        var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
+        return await Send<TResponse>(await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers));
+    }
 
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                return await GenerateErrorResult(serviceResult, response);
-            }
+    public async Task<ServiceResult<TResponse>> Put<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
+        => await Send<TResponse>(await PrepareRequest(HttpMethod.Put, uriSuffix, headers));
 
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
-            if (result is null)
-                return serviceResult.NoContent();
+    public async Task<ServiceResult> Put(string uriSuffix, params KeyValuePair<string, string>[] headers)
+        => await Send(await PrepareRequest(HttpMethod.Put, uriSuffix, headers));
 
-            return serviceResult.Success(result);
+    public async Task<ServiceResult> Put<TRequest>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
+    {
+        var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
+        return await Send(await PrepareRequest(HttpMethod.Put, uriSuffix, content, headers));
+    }
 
-        }
-        catch (Exception ex)
-        {
-            return GenerateErrorResult(serviceResult, ex);
-        }
+    public async Task<ServiceResult<TResponse>> Put<TRequest, TResponse>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
+    {
+        var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
+        return await Send<TResponse>(await PrepareRequest(HttpMethod.Put, uriSuffix, content, headers));
     }
 
     private static async Task<string> GetErrorMessage(HttpResponseMessage response)
