@@ -60,7 +60,7 @@ public class StorageProvider : IStorageProvider
         Task.Run(async () => await _jsRuntime.InvokeVoidAsync("eval", $@"
             window.addEventListener('storage', (event) => {{
                 if (event.key === '{AccessTokenKey}') {{
-                    DotNet.invokeMethodAsync('Muehlbauer.ProKiosk.Shared.Frontend', '{nameof(NotifyStaticAccessTokenChanged)}');
+                    DotNet.invokeMethodAsync('Tizpusoft.Shared.Frontend', '{nameof(NotifyStaticAccessTokenChanged)}');
                 }}
             }});
         "));
