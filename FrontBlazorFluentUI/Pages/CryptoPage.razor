@@ -1,0 +1,21 @@
+﻿@page "/crypto"
+@attribute [Authorize]
+
+<PageTitle>Crypto</PageTitle>
+
+<h1>Crypto</h1>
+
+    <FluentTypography Variant="TypographyVariant.Heading4">AES-256 Encryption / Decryption</FluentTypography>
+
+    <FluentTextField Style="width: 100%;" Label="Encryption Key" @bind-Value="Key" />
+    <FluentTextArea Style="width: 100%;" Label="Plaintext Message" @bind-Value="Message" Rows="4" />
+
+    <FluentButton Appearance=" Appearance.Accent" class="mt-2" @onclick="EncryptMessage">Encrypt</FluentButton>
+
+    <FluentTextArea  Style="width: 100%;" Label="Encrypted Local (Base64)" @bind-Value="Encrypted" Rows="4" ReadOnly="false" />
+    <FluentTextArea Style="width: 100%;" Label="Encrypted Server (Base64)" @bind-Value="Encrypted_Server" Rows="4" ReadOnly="false" />
+
+    <FluentButton Appearance="Appearance.Accent" class="mt-2" @onclick="DecryptMessage">Decrypt</FluentButton>
+
+    <FluentTextArea Style="width: 100%;" Label="Decrypted Local Message" @bind-Value="Decrypted" Rows="4" ReadOnly="true" />
+    <FluentTextArea Style="width: 100%;" Label="Decrypted Server Message" @bind-Value="Decrypted_Server" Rows="4" ReadOnly="true" />

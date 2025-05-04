@@ -18,6 +18,9 @@ public static class DefaultsExtensions
         });
 
         services.AddSingleton<TimeService>();
+        services.AddSingleton<EncryptionService>();
+        services.AddSingleton<ICryptoService, CryptoService>();
+        
         services.AddScoped<IStorageProvider, StorageProvider>();
         services.AddScoped<UserContext>();
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();

@@ -1,6 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
-namespace Shared.Services;
+﻿namespace Shared.Services;
 
 public sealed class ApiClient : IApiClient
 {
@@ -23,6 +21,12 @@ public sealed class ApiClient : IApiClient
     public async Task<ServiceResult<ContextOverview>> GetOverviewAsync()
     {
         var serviceResult = await Get<ContextOverview>("/info");
+        return serviceResult;
+    }
+
+    public async Task<ServiceResult<string>> CryptoAsync(CryptoRequest request)
+    {
+        var serviceResult = await Post<CryptoRequest, string>("/crypto", request);
         return serviceResult;
     }
 

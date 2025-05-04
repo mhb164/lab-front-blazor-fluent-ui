@@ -3,6 +3,7 @@
 public interface IApiClient
 {
     Task<ServiceResult<ContextOverview>> GetOverviewAsync();
+    Task<ServiceResult<string>> CryptoAsync(CryptoRequest request);
     Task<ServiceResult<TResponse>> Get<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers);
 
     Task<ServiceResult<TResponse>> Post<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers);
