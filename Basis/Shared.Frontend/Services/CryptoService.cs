@@ -10,10 +10,14 @@ public class CryptoService : ICryptoService
     }
 
     public async Task<byte[]> GenerateBytesAsync(int length)
-        => await _js.InvokeAsync<byte[]>("cryptojs.generateBytes", length);
+    {
+        var intArray = await _js.InvokeAsync<int[]>("cryptojs.generateBytes", length);
+        return [.. intArray.Select(i => (byte)i)];
+    }
 
     public async Task<byte[]> EncryptGCMAsync(byte[] plaintextBytes, byte[] passwordBytes, byte[] salt, byte[] iv, int iterations)
-        => await _js.InvokeAsync<byte[]>(
+    {
+        var intArray = await _js.InvokeAsync<int[]>(
             "cryptojs.encryptGCM",
             plaintextBytes,
             passwordBytes,
@@ -21,9 +25,12 @@ public class CryptoService : ICryptoService
             iv,
             iterations
         );
+        return [.. intArray.Select(i => (byte)i)];
+    }
 
     public async Task<byte[]> DecryptGCMAsync(byte[] encryptedBytes, byte[] passwordBytes, byte[] salt, byte[] iv, int iterations)
-        => await _js.InvokeAsync<byte[]>(
+    {
+        var intArray = await _js.InvokeAsync<int[]>(
             "cryptojs.decryptGCM",
             encryptedBytes,
             passwordBytes,
@@ -31,4 +38,6 @@ public class CryptoService : ICryptoService
             iv,
             iterations
         );
+        return [.. intArray.Select(i => (byte)i)];
+    }
 }

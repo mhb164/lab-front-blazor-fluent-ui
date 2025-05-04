@@ -30,7 +30,7 @@
             plainBytes
         );
 
-        return new Uint8Array(encrypted);
+        return Array.from(new Uint8Array(encrypted));
     },
 
     async decryptGCM(encryptedBytes, passwordBytes, salt, iv, iterations) {
@@ -64,13 +64,12 @@
             encryptedBytes
         );
 
-        return new Uint8Array(decrypted);
+        return Array.from(new Uint8Array(decrypted));
     },
 
     async generateBytes(length) {
         const bytes = new Uint8Array(length);
         crypto.getRandomValues(bytes); 
-        return bytes;
+        return Array.from(bytes);;
     }
-
 };
