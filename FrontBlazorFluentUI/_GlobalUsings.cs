@@ -16,6 +16,7 @@ global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using System.Text.Json;
 global using Shared.Config;
+global using Shared.FileShare;
 global using Shared.Interfaces;
 global using Shared.Extensions;
 global using Shared.Components;

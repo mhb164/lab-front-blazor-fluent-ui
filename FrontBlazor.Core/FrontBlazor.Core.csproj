@@ -10,10 +10,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Services\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Basis\Common\Common.csproj" />
 		<ProjectReference Include="..\Basis\Shared.Frontend\Shared.Frontend.csproj" />
 		<ProjectReference Include="..\Basis\Shared.TypicalAuth\Shared.TypicalAuth.csproj" />

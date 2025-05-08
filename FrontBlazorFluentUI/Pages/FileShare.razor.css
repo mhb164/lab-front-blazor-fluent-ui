@@ -1,0 +1,29 @@
+﻿.card-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top:10px;
+}
+
+.card {
+    display: flex; /* Make internal layout flexible */
+    flex-direction: row; /* Layout children horizontally */
+    flex: 1 1 300; /* Allow auto-resize based on content */
+    max-width: 100%; /* Prevent overflow */
+    padding: 10px;
+    border: 2px solid var(--neutral-fill-secondary-rest);
+    border-radius: 10px;
+    box-sizing: border-box; /* Include padding in width calc */
+    min-width: 250px; /* Or whatever feels right */
+    gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .card-container {
+        grid-template-columns: 1fr; /* Full-width on small screens */
+    }
+
+    .card {
+        width: 100%;
+    }
+}

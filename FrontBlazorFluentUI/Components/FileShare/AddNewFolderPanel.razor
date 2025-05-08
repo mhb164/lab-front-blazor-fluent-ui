@@ -1,0 +1,44 @@
+﻿<FluentDialog aria-label="Simple dialog" Modal="true" TrapFocus="false">
+    <FluentDialogHeader Visible="false" />
+
+    <FluentLabel Style="margin-bottom: 1rem;" Typo="Typography.H2"
+                 Color="@Color.Custom" CustomColor="#00929D"
+                 Alignment="HorizontalAlignment.Center">
+        Add New Folder
+    </FluentLabel>
+
+    <EditForm EditContext="@_editContext" OnValidSubmit="SubmitAsync">
+        <DataAnnotationsValidator />
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="margin-bottom: 10px;">
+            <FluentTextField @bind-Value="_editContent.Name" Required Style="width: 100%; " />
+        </FluentStack>
+
+        <FluentStack>
+            <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Neutral" Style="width: 50%;" Disabled="@(_isSubmiting)">
+                <FluentStack>
+                    @if (_isSubmiting)
+                    {
+                        <FluentLabel>Submiting...</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Style="@StyleForSubmit()">Submit</FluentLabel>
+                    }
+                </FluentStack>
+
+            </FluentButton>
+
+            <FluentButton Style="width: 50%;" Appearance="Appearance.Neutral" @onclick="OnCloseAsync">Close</FluentButton>
+        </FluentStack>
+        @if (_isSubmiting)
+        {
+            <FluentProgress></FluentProgress>
+        }
+
+        @if (ErrorMessageHasValue)
+        {
+            <FluentLabel Color="@Color.Error">@_errorMessage</FluentLabel>
+        }
+
+    </EditForm>
+</FluentDialog>

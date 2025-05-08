@@ -22,6 +22,7 @@ public static class DefaultsExtensions
         services.AddSingleton<ICryptoService, CryptoService>();
         
         services.AddScoped<IStorageProvider, StorageProvider>();
+        services.AddScoped<IFileDownloadService, FileDownloadService>();
         services.AddScoped<UserContext>();
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<AuthenticationStateProvider>(provider => (provider.GetRequiredService<IAuthStateProvider>() as AuthStateProvider)!);

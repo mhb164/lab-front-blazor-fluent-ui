@@ -91,6 +91,32 @@ public sealed class ApiClient : IApiClient
         }
     }
 
+    private async Task<ServiceResult<FileResult>> Download(HttpRequestMessage request)
+    {
+        var serviceResult = new ServiceResult<FileResult>();
+        try
+        {
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                return await GenerateErrorResult(serviceResult, response);
+            }
+
+            var fileContent = await response.Content.ReadAsByteArrayAsync();
+            var contentType = response.Content.Headers.ContentType?.ToString();
+            var fileName = response.Content.Headers.ContentDisposition?.FileName ?? "downloaded-file"; // Default filename if not provided
+
+            var result = new FileResult(fileContent, name: fileName, contentType: contentType);
+            return serviceResult.Success(result);
+
+        }
+        catch (Exception ex)
+        {
+            return GenerateErrorResult(serviceResult, ex);
+        }
+    }
+
+
     public async Task<ServiceResult<TResponse>> Get<TResponse>(string uriSuffix, params KeyValuePair<string, string>[] headers)
         => await Send<TResponse>(await PrepareRequest(HttpMethod.Get, uriSuffix, headers));
 
@@ -104,6 +130,17 @@ public sealed class ApiClient : IApiClient
     {
         var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
         return await Send(await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers));
+    }
+
+    public async Task<ServiceResult> PostContent(string uriSuffix, HttpContent? content, params KeyValuePair<string, string>[] headers)
+    {
+        return await Send(await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers));
+    }
+
+    public async Task<ServiceResult<FileResult>> PostDownload<TRequest>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
+    {
+        var content = JsonContent.Create(requestData, mediaType: null, _jsonOptions);
+        return await Download(await PrepareRequest(HttpMethod.Post, uriSuffix, content, headers));
     }
 
     public async Task<ServiceResult<TResponse>> Post<TRequest, TResponse>(string uriSuffix, TRequest requestData, params KeyValuePair<string, string>[] headers)
