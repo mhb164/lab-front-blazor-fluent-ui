@@ -3,59 +3,58 @@
 
 <PageTitle>File Share</PageTitle>
 
-
-<FluentStack>
-    <FluentButton Appearance="Appearance.Lightweight" OnClick="OnGetFoldersClick" Title="Refresh">
-        <FluentIcon Value="@(new Icons.Regular.Size24.FolderSync())" Color="Color.Neutral" />
-    </FluentButton>
-
-    @if (folders != null)
-    {
-        <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderAddClick" Title="Add new folder">
-            <FluentIcon Value="@(new Icons.Regular.Size24.FolderAdd())" Color="Color.Accent" />
+<div class="card-flex-container">
+    <div class="card">
+        <FluentButton Appearance="Appearance.Lightweight" OnClick="OnGetFoldersClick" Title="Refresh">
+            <FluentIcon Value="@(new Icons.Regular.Size24.FolderSync())" Color="Color.Neutral" />
         </FluentButton>
 
-        <FluentSelect Items=@folders.Items
-                      OptionText="@(i => i)"
-                      OptionValue="@(i => i)"
-                      @bind-Value="@SelectedFolder" />
-
-
-        @if (SelectedFolder != null)
+        @if (folders != null)
         {
-            <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderRenameClick" Title=@($"Rename {SelectedFolder} folder")>
-                <FluentIcon Value="@(new Icons.Regular.Size24.Rename())" Color="Color.Accent" />
+            <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderAddClick" Title="Add new folder">
+                <FluentIcon Value="@(new Icons.Regular.Size24.FolderAdd())" Color="Color.Accent" />
             </FluentButton>
-            <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderDeleteClick" Title=@($"Delete {SelectedFolder} folder")>
-                <FluentIcon Value="@(new Icons.Regular.Size24.Delete())" Color="Color.Warning" />
-            </FluentButton>
-            <FluentButton Appearance="Appearance.Lightweight" Title=@($"Upload File to {SelectedFolder} folder")
-                          Id="MyUploadStream">
-                <FluentIcon Value="@(new Icons.Regular.Size24.SendCopy())" Color="Color.Accent" />
-            </FluentButton>
-            <FluentLabel Alignment="HorizontalAlignment.Center">
-                @progressTitle
-            </FluentLabel>
-            @* <FluentProgress Min="0" Max="100" Value="@progressPercent" Visible="@(progressPercent > 0)" /> *@
+
+            <FluentSelect Width="200px" Items=@folders.Items
+                          OptionText="@(i => i)"
+                          OptionValue="@(i => i)"
+                          @bind-Value="@SelectedFolder" />
+
+
+            @if (SelectedFolder != null)
+            {
+                <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderRenameClick" Title=@($"Rename {SelectedFolder} folder")>
+                    <FluentIcon Value="@(new Icons.Regular.Size24.Rename())" Color="Color.Accent" />
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Lightweight" OnClick="OnFolderDeleteClick" Title=@($"Delete {SelectedFolder} folder")>
+                    <FluentIcon Value="@(new Icons.Regular.Size24.Delete())" Color="Color.Warning" />
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Lightweight" Title=@($"Upload File to {SelectedFolder} folder")
+                              Id="MyUploadStream">
+                    <FluentIcon Value="@(new Icons.Regular.Size24.SendCopy())" Color="Color.Accent" />
+                </FluentButton>
+                <FluentLabel Alignment="HorizontalAlignment.Center">
+                    @progressTitle
+                </FluentLabel>
+                @* <FluentProgress Min="0" Max="100" Value="@progressPercent" Visible="@(progressPercent > 0)" /> *@
+            }
         }
-    }
-    <FluentSpacer />
-</FluentStack>
+        <FluentSpacer />
+    </div>
 
-<FluentInputFile @ref="@myFileByStream"
-                 AnchorId="MyUploadStream"
-                 DragDropZoneVisible="false"
-                 Mode="InputFileMode.Stream"
-                 Multiple="true"
-                 MaximumFileSize="@(20 * 1024 * 1024)"
-                 Accept="*.*"
-                 OnFileUploaded="@OnFileUploadedAsync"
-                 OnCompleted="@OnCompleted" />
+    <FluentInputFile @ref="@myFileByStream"
+                     AnchorId="MyUploadStream"
+                     DragDropZoneVisible="false"
+                     Mode="InputFileMode.Stream"
+                     Multiple="true"
+                     MaximumFileSize="@(20 * 1024 * 1024)"
+                     Accept="*.*"
+                     OnFileUploaded="@OnFileUploadedAsync"
+                     OnCompleted="@OnCompleted" />
 
 
-@if (folderFileList != null)
-{
-    <div class="card-flex-container">
+    @if (folderFileList != null)
+    {
         @foreach (var item in folderFileList.Items)
         {
             <div class="card">
@@ -72,6 +71,6 @@
             </div>
         }
 
-    </div>
-}
+    }
+</div>
 

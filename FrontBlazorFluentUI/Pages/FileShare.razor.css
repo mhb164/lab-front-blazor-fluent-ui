@@ -9,6 +9,7 @@
     display: flex; /* Make internal layout flexible */
     flex-direction: row; /* Layout children horizontally */
     flex: 1 1 300; /* Allow auto-resize based on content */
+    flex-wrap: wrap;
     max-width: 100%; /* Prevent overflow */
     padding: 10px;
     border: 2px solid var(--neutral-fill-secondary-rest);
