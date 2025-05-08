@@ -1,0 +1,21 @@
+﻿<div style=@ContainerStyle>
+    <FluentDataGrid Items="@Rows" DisplayMode="DataGridDisplayMode.Table"
+                    Pagination="@pagination"
+                    HeaderCellAsButtonWithMenu="false"
+                    AutoItemsPerPage="true">
+        @foreach (var column in Columns)
+        {
+            <TemplateColumn Style="min-width:150px;" Title=@column.Title Sortable="true" Filtered="HasColumnFilter(column)" SortBy=@GetSortBy(column)>
+
+                <ChildContent>@context.ValueOf(column)</ChildContent>
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="search" Value="@GetColumnFilter(column)" ValueChanged="@(v => SetColumnFilter(column, v))" Autofocus=true Placeholder="@(column.Title +" ...")" />
+                    </div>
+                </ColumnOptions>
+            </TemplateColumn>
+        }
+    </FluentDataGrid>
+</div>
+
+<FluentPaginator State="@pagination" />

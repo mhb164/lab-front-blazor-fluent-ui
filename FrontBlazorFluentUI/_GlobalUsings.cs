@@ -21,3 +21,5 @@ global using Shared.Extensions;
 global using Shared.Components;
 global using Shared.Services;
 global using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
+global using Laboratory.Frontend.Interfaces;
+global using Laboratory.Frontend.Model;

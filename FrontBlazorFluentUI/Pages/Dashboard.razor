@@ -21,12 +21,4 @@
     </NotAuthorized>
 </AuthorizeView>
 
-@code {
-
-    protected override void OnInitialized()
-    {
-        LayoutService.Title = "Dashboard";
-
-        //NavigationManager.NavigateTo("/sign-in");
-    }
-}
+<TableView DataProvider="@TestTableData" ContainerStyle="height: calc(100dvh - 160px);min-height: 8rem;overflow-x: auto;overflow-y: hidden;" />
