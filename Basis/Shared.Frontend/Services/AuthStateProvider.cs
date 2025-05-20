@@ -87,9 +87,9 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
         var refreshTime = timeUntilExpiry.TotalSeconds > 60 ? timeUntilExpiry.TotalSeconds - 60 : 30; // Refresh 1 minute before expiry
 
         _refreshTimer?.Dispose();
-        _refreshTimer = new Timer(async _ => await RefreshTokenAsync(), null, (int)(refreshTime * 1000), Timeout.Infinite);
+        _refreshTimer = new Timer(async _ => await RefreshTokenOnTimerAsync(), null, (int)(refreshTime * 1000), Timeout.Infinite);
         _refreshExpirationTime = user.Token.ExpirationTime;
-        _logger?.LogInformation("[AUTH] Refesh token scheduled for {RefreshTime:N1} minute", refreshTime/60);
+        _logger?.LogInformation("[AUTH] Refresh token scheduled for {RefreshTime:N1} minute", refreshTime/60);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -140,6 +140,18 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
     public void NotifyAuthenticationStateChanged() =>
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
 
+    public async Task RefreshTokenOnTimerAsync()
+    {
+        var refreshTokenResult = await RefreshTokenAsync();
+
+        if (refreshTokenResult.IsSuccess)
+            return;
+
+        _logger?.LogInformation("[AUTH] Refresh token failed: {Message}", refreshTokenResult.Message);
+        _refreshTimer?.Dispose();
+        _refreshTimer = new Timer(async _ => await RefreshTokenOnTimerAsync(), null, 500, Timeout.Infinite);
+    }
+
     public async Task<ServiceResult> RefreshTokenAsync()
     {
         var refreshToken = await _storage.GetRefreshTokenAsync();
@@ -149,8 +161,13 @@ public class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
         var refreshTokenResult = await _apiClient.Post<Token>("/refresh-token", new KeyValuePair<string, string>(RefreshTokenHeaderName, refreshToken));
         if (refreshTokenResult.IsFailed || refreshTokenResult.Value is null)
         {
-            await ClearToken();
-            return ServiceResult.From(refreshTokenResult);
+            if (refreshTokenResult.Code == ServiceResultCode.Unauthorized)
+            {
+                await ClearToken();
+                return ServiceResult.From(refreshTokenResult);
+            }
+
+            return ServiceResult.ServiceUnavailable();
         }
 
         await UpdateToken(refreshTokenResult.Value, false);
